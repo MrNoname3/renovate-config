@@ -1,0 +1,22 @@
+name: CI
+
+# The job is the release gate developers run locally, so local green is CI green.
+on:
+  push:
+    branches: ['**']        # Renovate's branches too: main's protection requires this status
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Run the release gate (same script as local runs)
+        run: ./scripts/check.sh

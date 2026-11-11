@@ -1,5 +1,18 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": "This repository only holds presets and has no dependencies of its own; the file is here so Renovate does not open an onboarding pull request.",
-  "enabled": false
+  "extends": [
+    "local>MrNoname3/renovate-config"
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "The validator's version in scripts/check.sh, under a '# renovate: datasource=... depName=...' comment",
+      "managerFilePatterns": [
+        "/^scripts/check\\.sh$/"
+      ],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n\\w+=(?<currentValue>\\S+)"
+      ]
+    }
+  ]
 }

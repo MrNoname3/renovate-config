@@ -2,7 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": "base, plus conservative automerge: patch, pin and digest updates, and minor GitHub Actions updates, after a 3-day soak. A repository turns it off for its own files with a later packageRule.",
   "extends": [
-    "local>Atosz3/renovate-config:base"
+    "local>MrNoname3/renovate-config:base"
   ],
   "packageRules": [
     {
