@@ -1,0 +1,5 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "This repository only holds presets and has no dependencies of its own; the file is here so Renovate does not open an onboarding pull request.",
+  "enabled": false
+}

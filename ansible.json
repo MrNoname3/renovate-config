@@ -1,0 +1,17 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Ansible repositories: versions in role defaults, under a '# renovate: datasource=... depName=...' comment.",
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Versions in role defaults, under a '# renovate: datasource=... depName=...' comment",
+      "managerFilePatterns": [
+        "/(^|/)roles/[^/]+/defaults/main\\.yml$/"
+      ],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n\\w+: \"?(?<currentValue>[^\"\\s]+)\"?"
+      ],
+      "extractVersionTemplate": "^v?(?<version>.+)$"
+    }
+  ]
+}
