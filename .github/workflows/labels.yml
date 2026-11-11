@@ -1,0 +1,39 @@
+name: Labels
+
+# Creates or updates the labels in labels.toml in every repository with a
+# renovate.json. A push to another branch, or a run without the LABELS_TOKEN
+# secret, only checks the file and shows the plan.
+on:
+  push:
+    branches: ['**']
+    paths:
+      - labels.toml
+      - scripts/sync-labels.py
+      - .github/workflows/labels.yml
+  schedule:
+    - cron: '17 5 * * 1'    # weekly, for repositories added since
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Sync the labels
+        env:
+          LABELS_TOKEN: ${{ secrets.LABELS_TOKEN }}
+          APPLY: ${{ github.ref == 'refs/heads/main' && '--apply' || '' }}
+        run: |
+          if [ -n "$LABELS_TOKEN" ] || [ -z "$APPLY" ]; then
+            python3 scripts/sync-labels.py $APPLY
+          else
+            python3 scripts/sync-labels.py
+            echo "::warning::LABELS_TOKEN is not set: no labels were changed"
+          fi

@@ -31,3 +31,17 @@ Renovate's next run; nothing has to be copied.
 `./scripts/check.sh` runs Renovate's validator over every JSON file here, with
 `npx` or, without node, Renovate's container image through podman. CI runs the
 same script, and `main` requires it to pass.
+
+## Labels
+
+Renovate puts labels on its pull requests (`labels`, `addLabels`), but on
+Gitea it can only use a label that already exists in the repository.
+`labels.toml` lists them, and the **Labels** workflow creates or updates them
+in every repository that has a `renovate.json`: on a push to `main` that
+touches them, weekly, and on demand. It never deletes a label.
+
+The workflow needs the `LABELS_TOKEN` Actions secret: a token with the
+`read:repository` and `write:issue` scopes. Without it, the workflow only checks
+`labels.toml`. `python3 scripts/sync-labels.py` runs the same check locally,
+and with `LABELS_TOKEN`, `GITHUB_API_URL` and `GITHUB_REPOSITORY_OWNER` set it
+prints the plan; `--apply` makes the changes.
