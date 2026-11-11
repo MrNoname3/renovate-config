@@ -1,25 +1,28 @@
 #!/usr/bin/env bash
 # Release gate: every preset and renovate.json must pass Renovate's own
-# validator. CI (.github/workflows/ci.yml) runs exactly this script.
+# validator, as repository config. CI (.github/workflows/ci.yml) runs exactly
+# this script, inside Renovate's image, where the validator is installed.
 #
-# The validator comes from npm when node is installed (CI's job image has it),
-# otherwise from Renovate's container image through podman.
+# Elsewhere the validator comes from npm when npx is installed, otherwise from
+# Renovate's image through podman; both at the version below.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-# renovate: datasource=npm depName=renovate
+# renovate: datasource=docker depName=docker.io/renovate/renovate
 RENOVATE_VERSION=44.216.6
 
 mapfile -t configs < <(git ls-files '*.json')
+args=(--strict --no-global "${configs[@]}")
 
-if command -v npx > /dev/null; then
-  npx --yes --package "renovate@$RENOVATE_VERSION" -- \
-    renovate-config-validator --strict --no-global "${configs[@]}"
+if command -v renovate-config-validator > /dev/null; then
+  renovate-config-validator --version
+  renovate-config-validator "${args[@]}"
+elif command -v npx > /dev/null; then
+  npx --yes --package "renovate@$RENOVATE_VERSION" -- renovate-config-validator "${args[@]}"
 elif command -v podman > /dev/null; then
-  podman run --rm --network=host -v "$PWD:/repo:ro,z" -w /repo \
-    --entrypoint renovate-config-validator \
-    "docker.io/renovate/renovate:$RENOVATE_VERSION" --strict --no-global "${configs[@]}"
+  podman run --rm -v "$PWD:/repo:ro,z" -w /repo --entrypoint renovate-config-validator \
+    "docker.io/renovate/renovate:$RENOVATE_VERSION" "${args[@]}"
 else
-  echo "FAIL: neither npx nor podman is installed" >&2
+  echo "FAIL: none of renovate-config-validator, npx or podman is installed" >&2
   exit 1
 fi

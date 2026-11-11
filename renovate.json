@@ -6,7 +6,7 @@
   "customManagers": [
     {
       "customType": "regex",
-      "description": "The validator's version in scripts/check.sh, under a '# renovate: datasource=... depName=...' comment",
+      "description": "The validator's image version in scripts/check.sh, under a '# renovate: datasource=... depName=...' comment",
       "managerFilePatterns": [
         "/^scripts/check\\.sh$/"
       ],
