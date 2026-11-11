@@ -14,5 +14,16 @@
         "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n\\w+=(?<currentValue>\\S+)"
       ]
     }
+  ],
+  "packageRules": [
+    {
+      "description": "The validator's image is pinned twice, in scripts/check.sh and as the CI job's container: both move in one pull request, after the same soak",
+      "matchDepNames": [
+        "docker.io/renovate/renovate"
+      ],
+      "groupName": "renovate validator",
+      "minimumReleaseAge": "3 days",
+      "automerge": true
+    }
   ]
 }
