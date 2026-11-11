@@ -34,14 +34,7 @@ same script, and `main` requires it to pass.
 
 ## Labels
 
-Renovate puts labels on its pull requests (`labels`, `addLabels`), but on
-Gitea it can only use a label that already exists in the repository.
-`labels.toml` lists them, and the **Labels** workflow creates or updates them
-in every repository that has a `renovate.json`: on a push to `main` that
-touches them, weekly, and on demand. It never deletes a label.
-
-The workflow needs the `LABELS_TOKEN` Actions secret: a token with the
-`read:repository` and `write:issue` scopes. Without it, the workflow only checks
-`labels.toml`. `python3 scripts/sync-labels.py` runs the same check locally,
-and with `LABELS_TOKEN`, `GITHUB_API_URL` and `GITHUB_REPOSITORY_OWNER` set it
-prints the plan; `--apply` makes the changes.
+The labels these presets put on pull requests (`labels`, `addLabels`) must
+exist in the repository: on Gitea, Renovate does not create them.
+repo-template's `forge.toml` lists them, and its Sync workflow creates them in
+every repository with a `renovate.json`.
