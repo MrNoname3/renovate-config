@@ -2,7 +2,8 @@
 
 Shared [Renovate](https://docs.renovatebot.com/) presets for the repositories on
 this forge. A repository's `renovate.json` extends one of them and keeps only
-the rules that are its own.
+the rules that are its own. How to add a rule, or anything else every
+repository shares, is in repo-template's README.
 
 | Preset | Extend with | What it holds |
 |---|---|---|
