@@ -8,7 +8,7 @@ repository shares, is in repo-template's README.
 | Preset | Extend with | What it holds |
 |---|---|---|
 | `default.json` | `local>MrNoname3/renovate-config` | `base`, plus automerge of patch, pin and digest updates and of minor GitHub Actions updates, after a 3-day soak |
-| `base.json` | `local>MrNoname3/renovate-config:base` | `config:recommended`, Actions pinned by digest, the dependency dashboard and the `dependencies` label; no automerge |
+| `base.json` | `local>MrNoname3/renovate-config:base` | `config:recommended`, Actions pinned by digest, the dependency dashboard and the `dependencies` label; no automerge, and the copier manager off (repo-sync updates the template) |
 | `ansible.json` | `local>MrNoname3/renovate-config:ansible` | the regex manager for `# renovate:` comments in role defaults |
 
 ```json

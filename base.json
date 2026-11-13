@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": "What every repository shares: the recommended rules, GitHub Actions pinned by digest, a dependency dashboard and the dependencies label. No automerge.",
+  "description": "What every repository shares: the recommended rules, GitHub Actions pinned by digest, a dependency dashboard and the dependencies label. No automerge, and no copier manager.",
   "extends": [
     "config:recommended",
     "helpers:pinGitHubActionDigests"
@@ -8,5 +8,9 @@
   "dependencyDashboard": true,
   "labels": [
     "dependencies"
-  ]
+  ],
+  "copier": {
+    "description": "Off: repo-sync updates repo-template, and .copier-answers.yml names the template by a placeholder host that never resolves, so the copier manager's lookup only fails.",
+    "enabled": false
+  }
 }
