@@ -9,7 +9,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 # renovate: datasource=docker depName=docker.io/renovate/renovate
-RENOVATE_VERSION=44.216.6
+RENOVATE_VERSION=44.239.1
 
 mapfile -t configs < <(git ls-files '*.json')
 args=(--strict --no-global "${configs[@]}")
